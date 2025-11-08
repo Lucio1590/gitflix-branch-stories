@@ -1,8 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Heart, MessageCircle, TrendingUp, Calendar, Users, BookOpen, GitBranch } from "lucide-react";
+import {
+  ArrowLeft,
+  Heart,
+  MessageCircle,
+  TrendingUp,
+  Calendar,
+  Users,
+  BookOpen,
+  GitBranch,
+} from "lucide-react";
 import BottomNav from "@/components/BottomNav";
-import { currentUser, userCreatedStories, userParticipatedStories, UserStory } from "@/data/mockUser";
+import {
+  currentUser,
+  userCreatedStories,
+  userParticipatedStories,
+  UserStory,
+} from "@/data/mockUser";
 import { cn } from "@/lib/utils";
 
 type TabType = "created" | "participated";
@@ -17,7 +31,11 @@ const Profile = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("it-IT", { day: "numeric", month: "short", year: "numeric" });
+    return date.toLocaleDateString("it-IT", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   const StoryGrid = ({ stories }: { stories: UserStory[] }) => (
@@ -34,24 +52,26 @@ const Profile = () => {
             alt={story.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          
+
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-          
+
           {/* Depth Badge */}
           {!story.isRoot && (
             <div className="absolute top-2 right-2 bg-primary/90 backdrop-blur-sm px-2 py-1 rounded-full flex items-center gap-1">
               <GitBranch className="w-3 h-3 text-primary-foreground" />
-              <span className="text-xs font-semibold text-primary-foreground">L{story.depth}</span>
+              <span className="text-xs font-semibold text-primary-foreground">
+                L{story.depth}
+              </span>
             </div>
           )}
-          
+
           {/* Content */}
           <div className="absolute bottom-0 left-0 right-0 p-3 space-y-2">
             <h3 className="text-sm font-semibold text-white line-clamp-2">
               {story.title}
             </h3>
-            
+
             {/* Stats */}
             <div className="flex items-center justify-between text-xs text-white/80">
               <div className="flex items-center gap-3">
@@ -64,9 +84,7 @@ const Profile = () => {
                   {story.comments}
                 </span>
               </div>
-              <span className="text-xs">
-                {formatDate(story.createdAt)}
-              </span>
+              <span className="text-xs">{formatDate(story.createdAt)}</span>
             </div>
           </div>
         </div>
@@ -102,9 +120,7 @@ const Profile = () => {
               <p className="text-sm text-muted-foreground mb-2">
                 @{currentUser.username}
               </p>
-              <p className="text-sm text-foreground/80">
-                {currentUser.bio}
-              </p>
+              <p className="text-sm text-foreground/80">{currentUser.bio}</p>
             </div>
           </div>
 
@@ -116,7 +132,9 @@ const Profile = () => {
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <TrendingUp className="w-4 h-4 text-primary" />
                 </div>
-                <span className="text-xs text-muted-foreground">Upvotes Totali</span>
+                <span className="text-xs text-muted-foreground">
+                  Upvotes Totali
+                </span>
               </div>
               <p className="text-2xl font-bold text-foreground">
                 {currentUser.totalUpvotes.toLocaleString()}
@@ -142,7 +160,9 @@ const Profile = () => {
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <BookOpen className="w-4 h-4 text-primary" />
                 </div>
-                <span className="text-xs text-muted-foreground">Storie Create</span>
+                <span className="text-xs text-muted-foreground">
+                  Storie Create
+                </span>
               </div>
               <p className="text-2xl font-bold text-foreground">
                 {currentUser.storiesCreated}
@@ -155,7 +175,9 @@ const Profile = () => {
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                   <GitBranch className="w-4 h-4 text-primary" />
                 </div>
-                <span className="text-xs text-muted-foreground">Partecipazioni</span>
+                <span className="text-xs text-muted-foreground">
+                  Partecipazioni
+                </span>
               </div>
               <p className="text-2xl font-bold text-foreground">
                 {currentUser.storiesParticipated}
@@ -168,14 +190,18 @@ const Profile = () => {
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-foreground">
-                <span className="font-bold">{currentUser.followersCount.toLocaleString()}</span>
+                <span className="font-bold">
+                  {currentUser.followersCount.toLocaleString()}
+                </span>
                 <span className="text-muted-foreground ml-1">follower</span>
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-foreground">
-                <span className="font-bold">{currentUser.followingCount.toLocaleString()}</span>
+                <span className="font-bold">
+                  {currentUser.followingCount.toLocaleString()}
+                </span>
                 <span className="text-muted-foreground ml-1">seguiti</span>
               </span>
             </div>
