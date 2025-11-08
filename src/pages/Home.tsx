@@ -130,13 +130,29 @@ const Home = () => {
               key={story.id}
               className="relative h-screen w-full snap-start snap-always"
             >
-              {/* Background Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${story.imageUrl})` }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
-              </div>
+              {/* Background Video or Image */}
+              {story.videoUrl ? (
+                <video
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src={story.videoUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  disablePictureInPicture
+                  controlsList="nodownload nofullscreen noremoteplayback"
+                  style={{
+                    pointerEvents: "none",
+                  }}
+                />
+              ) : (
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${story.imageUrl})` }}
+                />
+              )}
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
 
               {/* Content Overlay */}
               <div
@@ -167,8 +183,7 @@ const Home = () => {
                     <p className="text-foreground text-base leading-relaxed">
                       {story.content}
                     </p>
-                  </div>
-
+                  </div>{" "}
                   {/* Branch Info */}
                   <div className="flex items-center gap-2 text-accent">
                     <GitBranch className="w-4 h-4" />

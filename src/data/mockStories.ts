@@ -17,7 +17,8 @@ export interface Story {
   siblingBranches: string[];
   author: string;
   content: string;
-  imageUrl: string;
+  imageUrl: string; // Fallback for images
+  videoUrl?: string; // Optional video URL
   upvotes: number;
   downvotes: number;
   comments: number;
@@ -57,6 +58,7 @@ export const storiesById: Record<string, Story> = {
     author: "fashionista_maria",
     content: "Quale outfit è migliore per l'autunno 2025? 🍂 Creiamo un branch e poi aggiungete una domanda anche voi! Questo è il mio look preferito.",
     imageUrl: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     upvotes: 1247,
     downvotes: 23,
     comments: 189,
@@ -73,6 +75,7 @@ export const storiesById: Record<string, Story> = {
     author: "style_guru_luca",
     content: "Perfetto! Per questo outfit, quale accessorio abbineresti? Io punto su una borsa vintage. Branch per le scarpe? 👟",
     imageUrl: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=800&q=80",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
     upvotes: 892,
     downvotes: 15,
     comments: 134,
@@ -88,6 +91,7 @@ export const storiesById: Record<string, Story> = {
     author: "trendy_sofia",
     content: "Ecco le mie scarpe ideali! Ora la domanda è: quale colore per la giacca? 🧥",
     imageUrl: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
     upvotes: 654,
     downvotes: 8,
     comments: 98,
@@ -104,6 +108,7 @@ export const storiesById: Record<string, Story> = {
     author: "fashion_alex",
     content: "Sneakers bianche minimali sono perfette! 👟 Quale borsa ci abbineresti?",
     imageUrl: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=800&q=80",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     upvotes: 543,
     downvotes: 5,
     comments: 78,
@@ -120,6 +125,7 @@ export const storiesById: Record<string, Story> = {
     author: "style_emma",
     content: "Stivali chelsea neri per un look più elegante! Quale cappotto useresti? 🧥",
     imageUrl: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=800&q=80",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
     upvotes: 421,
     downvotes: 8,
     comments: 56,
@@ -136,6 +142,7 @@ export const storiesById: Record<string, Story> = {
     author: "trend_marco",
     content: "Loafers marroni classici! Eleganza senza tempo. Quale cintura? 👔",
     imageUrl: "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800&q=80",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
     upvotes: 387,
     downvotes: 4,
     comments: 45,

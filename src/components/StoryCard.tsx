@@ -18,6 +18,7 @@ interface StoryCardProps {
   author: string;
   content: string;
   imageUrl: string;
+  videoUrl?: string;
   upvotes: number;
   downvotes: number;
   comments: number;
@@ -32,6 +33,7 @@ const StoryCard = ({
   author,
   content,
   imageUrl,
+  videoUrl,
   upvotes: initialUpvotes,
   downvotes: initialDownvotes,
   comments,
@@ -75,13 +77,29 @@ const StoryCard = ({
 
   return (
     <div className="relative h-screen w-full snap-start snap-always">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
-      </div>
+      {/* Background Video or Image */}
+      {videoUrl ? (
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src={videoUrl}
+          autoPlay
+          loop
+          muted
+          playsInline
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
+          style={{
+            pointerEvents: "none",
+          }}
+        />
+      ) : (
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${imageUrl})` }}
+        />
+      )}
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
 
       {/* Content Overlay */}
       <div className="relative h-full flex flex-col justify-between p-4 pb-20">
