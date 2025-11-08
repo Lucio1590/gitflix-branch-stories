@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { ArrowUp, ArrowDown, MessageCircle, Share2, GitBranch, User } from "lucide-react";
+import {
+  ArrowUp,
+  ArrowDown,
+  MessageCircle,
+  Share2,
+  GitBranch,
+  User,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +23,9 @@ interface StoryCardProps {
   comments: number;
   branches: number;
   depth: number;
+  hasContinuation?: boolean;
+  hasBranchesLeft?: boolean;
+  hasBranchesRight?: boolean;
 }
 
 const StoryCard = ({
@@ -24,6 +37,9 @@ const StoryCard = ({
   comments,
   branches,
   depth,
+  hasContinuation = false,
+  hasBranchesLeft = false,
+  hasBranchesRight = false,
 }: StoryCardProps) => {
   const [upvotes, setUpvotes] = useState(initialUpvotes);
   const [downvotes, setDownvotes] = useState(initialDownvotes);
@@ -72,8 +88,40 @@ const StoryCard = ({
         {/* Top Bar - Depth Indicator */}
         <div className="flex items-center gap-2">
           <div className="bg-card/80 backdrop-blur-md px-4 py-2 rounded-full">
-            <span className="text-sm font-medium text-primary">Level {depth}</span>
+            <span className="text-sm font-medium text-primary">
+              Level {depth}
+            </span>
           </div>
+        </div>
+
+        {/* Navigation Indicators */}
+        <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          {/* Down Continuation Indicator */}
+          {hasContinuation && (
+            <div className="absolute bottom-32 left-1/2 -translate-x-1/2 animate-bounce">
+              <div className="bg-primary/90 backdrop-blur-md rounded-full p-3 shadow-glow">
+                <ChevronDown className="w-6 h-6 text-primary-foreground" />
+              </div>
+            </div>
+          )}
+
+          {/* Left Branches Indicator */}
+          {hasBranchesLeft && (
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 animate-pulse">
+              <div className="bg-accent/90 backdrop-blur-md rounded-full p-2 shadow-glow">
+                <ChevronLeft className="w-5 h-5 text-accent-foreground" />
+              </div>
+            </div>
+          )}
+
+          {/* Right Branches Indicator */}
+          {hasBranchesRight && (
+            <div className="absolute right-20 top-1/2 -translate-y-1/2 animate-pulse">
+              <div className="bg-accent/90 backdrop-blur-md rounded-full p-2 shadow-glow">
+                <ChevronRight className="w-5 h-5 text-accent-foreground" />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Bottom Content */}
@@ -84,9 +132,13 @@ const StoryCard = ({
               <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center">
                 <User className="w-6 h-6 text-primary-foreground" />
               </div>
-              <span className="text-foreground font-semibold text-lg">@{author}</span>
+              <span className="text-foreground font-semibold text-lg">
+                @{author}
+              </span>
             </div>
-            <p className="text-foreground text-base leading-relaxed">{content}</p>
+            <p className="text-foreground text-base leading-relaxed">
+              {content}
+            </p>
           </div>
 
           {/* Branch Info */}
@@ -113,10 +165,17 @@ const StoryCard = ({
             )}
           >
             <ArrowUp
-              className={cn("w-6 h-6", voteState === "up" ? "text-primary-foreground" : "text-foreground")}
+              className={cn(
+                "w-6 h-6",
+                voteState === "up"
+                  ? "text-primary-foreground"
+                  : "text-foreground"
+              )}
             />
           </div>
-          <span className="text-sm font-semibold text-foreground">{upvotes}</span>
+          <span className="text-sm font-semibold text-foreground">
+            {upvotes}
+          </span>
         </button>
 
         {/* Downvote */}
@@ -131,10 +190,17 @@ const StoryCard = ({
             )}
           >
             <ArrowDown
-              className={cn("w-6 h-6", voteState === "down" ? "text-destructive-foreground" : "text-foreground")}
+              className={cn(
+                "w-6 h-6",
+                voteState === "down"
+                  ? "text-destructive-foreground"
+                  : "text-foreground"
+              )}
             />
           </div>
-          <span className="text-sm font-semibold text-foreground">{downvotes}</span>
+          <span className="text-sm font-semibold text-foreground">
+            {downvotes}
+          </span>
         </button>
 
         {/* Comments */}
@@ -142,7 +208,9 @@ const StoryCard = ({
           <div className="w-12 h-12 rounded-full bg-card/80 backdrop-blur-md flex items-center justify-center">
             <MessageCircle className="w-6 h-6 text-foreground" />
           </div>
-          <span className="text-sm font-semibold text-foreground">{comments}</span>
+          <span className="text-sm font-semibold text-foreground">
+            {comments}
+          </span>
         </button>
 
         {/* Share */}
