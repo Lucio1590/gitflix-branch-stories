@@ -9,18 +9,8 @@ import {
   User,
 } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
-import { storiesById } from "@/data/mockStories";
+import { homePageRootStories } from "@/data/homePageStories";
 import { cn } from "@/lib/utils";
-
-// Get all root stories (Level 0 / parentId is null)
-const rootStories = Object.values(storiesById).filter(
-  (story) => story.parentId === null
-);
-
-// Sort by popularity (upvotes)
-const popularRootStories = [...rootStories].sort(
-  (a, b) => b.upvotes - a.upvotes
-);
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,7 +22,7 @@ const Home = () => {
     Record<string, "up" | "down" | null>
   >({});
 
-  const currentStory = popularRootStories[currentStoryIndex];
+  const currentStory = homePageRootStories[currentStoryIndex];
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart({
@@ -57,7 +47,7 @@ const Home = () => {
         setCurrentStoryIndex(currentStoryIndex - 1);
       } else if (
         deltaY < 0 &&
-        currentStoryIndex < popularRootStories.length - 1
+        currentStoryIndex < homePageRootStories.length - 1
       ) {
         setCurrentStoryIndex(currentStoryIndex + 1);
       }
@@ -73,7 +63,7 @@ const Home = () => {
         setCurrentStoryIndex(currentStoryIndex - 1);
       } else if (
         e.key === "ArrowDown" &&
-        currentStoryIndex < popularRootStories.length - 1
+        currentStoryIndex < homePageRootStories.length - 1
       ) {
         setCurrentStoryIndex(currentStoryIndex + 1);
       }
@@ -138,7 +128,7 @@ const Home = () => {
             <div className="flex items-center gap-2">
               <div className="bg-card/80 backdrop-blur-md px-4 py-2 rounded-full">
                 <span className="text-sm font-medium text-primary">
-                  {currentStoryIndex + 1} / {popularRootStories.length}
+                  {currentStoryIndex + 1} / {homePageRootStories.length}
                 </span>
               </div>
             </div>

@@ -2,65 +2,26 @@ import { useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import BottomNav from "@/components/BottomNav";
+import { homePageRootStories } from "@/data/homePageStories";
 import { cn } from "@/lib/utils";
 
-// Story collections for homepage
-const storyCollections = [
-  {
-    id: "villa-mistero",
-    rootStoryId: "1",
-    title: "Il Mistero della Villa",
-    description: "Ti svegli in una stanza sconosciuta. Cosa fai?",
-    category: "Mistero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80",
-  },
-  {
-    id: "neo-city",
-    rootStoryId: "1",
-    title: "Fuga da Neo-City",
-    description: "Un'offerta che non puoi rifiutare... o forse sì?",
-    category: "Mistero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=800&q=80",
-  },
-  {
-    id: "codice-rosso",
-    rootStoryId: "1",
-    title: "Codice Rosso",
-    description: "Hai 60 minuti per disinnescare la bomba.",
-    category: "Mistero",
-    imageUrl:
-      "https://images.unsplash.com/photo-1551029506-0807df4e5a34?w=800&q=80",
-  },
-  {
-    id: "tesoro-perduto",
-    rootStoryId: "1",
-    title: "Il Tesoro Perduto",
-    description: "Una mappa antica ti guida verso la gloria.",
-    category: "Avventura",
-    imageUrl:
-      "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&q=80",
-  },
-  {
-    id: "fashion-autumn",
-    rootStoryId: "1",
-    title: "Outfit Autunno 2025",
-    description: "Quale outfit è migliore per l'autunno?",
-    category: "Popolari",
-    imageUrl:
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80",
-  },
-  {
-    id: "coffee-shop",
-    rootStoryId: "1",
-    title: "Caffè del Mattino",
-    description: "Incontri uno sconosciuto al bar...",
-    category: "Recenti",
-    imageUrl:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
-  },
-];
+// Story collections for discovery page
+const storyCollections = homePageRootStories.map((story) => ({
+  id: story.id,
+  rootStoryId: story.id,
+  title: story.content.split(".")[0] + (story.content.includes("?") ? "?" : ""),
+  description: story.content,
+  category:
+    story.upvotes > 3500
+      ? "Popolari"
+      : story.upvotes > 3000
+      ? "Recenti"
+      : story.author.includes("mystery")
+      ? "Mistero"
+      : "Avventura",
+  imageUrl: story.imageUrl,
+  upvotes: story.upvotes,
+}));
 
 const categories = ["Tutti", "Popolari", "Recenti", "Mistero", "Avventura"];
 
