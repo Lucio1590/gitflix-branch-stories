@@ -1,3 +1,4 @@
+import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
@@ -13,23 +14,54 @@ interface BranchNavigationProps {
   branches: Branch[];
   currentBranch: number;
   onBranchSelect: (index: number) => void;
+  onClose: () => void;
 }
 
-const BranchNavigation = ({ branches, currentBranch, onBranchSelect }: BranchNavigationProps) => {
+const BranchNavigation = ({ branches, currentBranch, onBranchSelect, onClose }: BranchNavigationProps) => {
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
   if (branches.length === 0) return null;
 
+  // Mouse wheel navigation
+  React.useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (scrollRef.current) {
+        e.preventDefault();
+        scrollRef.current.scrollLeft += e.deltaY;
+      }
+    };
+
+    const element = scrollRef.current;
+    if (element) {
+      element.addEventListener('wheel', handleWheel, { passive: false });
+      return () => element.removeEventListener('wheel', handleWheel);
+    }
+  }, []);
+
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/95 to-transparent backdrop-blur-lg border-t border-border/50 z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/95 to-transparent backdrop-blur-lg border-t border-border/50 z-50 animate-in slide-in-from-bottom duration-300">
       <div className="p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-semibold text-foreground">Branch Options</h3>
-          <span className="text-xs text-muted-foreground">
-            {currentBranch + 1} / {branches.length}
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-muted-foreground">
+              {currentBranch + 1} / {branches.length}
+            </span>
+            <button
+              onClick={onClose}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Close branches"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <ScrollArea className="w-full">
-          <div className="flex gap-3 pb-2">
+          <div ref={scrollRef} className="flex gap-3 pb-2">
             {branches.map((branch, index) => (
               <button
                 key={branch.id}

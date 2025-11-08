@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StoryCard from "@/components/StoryCard";
 import BranchNavigation from "@/components/BranchNavigation";
 
@@ -79,6 +79,7 @@ const Index = () => {
   const [currentStory, setCurrentStory] = useState(0);
   const [currentBranch, setCurrentBranch] = useState(0);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const [showBranches, setShowBranches] = useState(false);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart({
@@ -118,8 +119,50 @@ const Index = () => {
     setTouchStart(null);
   };
 
+  // Arrow key navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowUp' && currentStory > 0) {
+        setCurrentStory(currentStory - 1);
+      } else if (e.key === 'ArrowDown' && currentStory < mockStories.length - 1) {
+        setCurrentStory(currentStory + 1);
+      } else if (e.key === 'ArrowLeft' && currentBranch > 0) {
+        setCurrentBranch(currentBranch - 1);
+      } else if (e.key === 'ArrowRight' && currentBranch < mockBranches.length - 1) {
+        setCurrentBranch(currentBranch + 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentStory, currentBranch]);
+
   return (
     <div className="relative h-screen w-full overflow-hidden bg-background">
+      {/* Branch Toggle Button */}
+      <button
+        onClick={() => setShowBranches(!showBranches)}
+        className="fixed left-4 top-1/2 -translate-y-1/2 z-50 bg-primary/90 hover:bg-primary text-primary-foreground p-3 rounded-full shadow-glow transition-all"
+        aria-label="Toggle branches"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+        >
+          <line x1="6" y1="3" x2="6" y2="15"></line>
+          <circle cx="18" cy="6" r="3"></circle>
+          <circle cx="6" cy="18" r="3"></circle>
+          <path d="M18 9a9 9 0 0 1-9 9"></path>
+        </svg>
+      </button>
+
       {/* Stories Container */}
       <div
         className="h-full w-full transition-transform duration-500 ease-smooth snap-y snap-mandatory overflow-y-auto"
@@ -139,11 +182,14 @@ const Index = () => {
       </div>
 
       {/* Branch Navigation */}
-      <BranchNavigation
-        branches={mockBranches}
-        currentBranch={currentBranch}
-        onBranchSelect={setCurrentBranch}
-      />
+      {showBranches && (
+        <BranchNavigation
+          branches={mockBranches}
+          currentBranch={currentBranch}
+          onBranchSelect={setCurrentBranch}
+          onClose={() => setShowBranches(false)}
+        />
+      )}
 
       {/* Tutorial Overlay (shown on first load) */}
       <div className="fixed top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
